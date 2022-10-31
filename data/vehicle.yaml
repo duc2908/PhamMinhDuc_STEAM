@@ -1,0 +1,7 @@
+train: /workspace/nabang1010/STEAM/PhamMinhDuc_STEAM/src/yolov5/trainset.txt 
+val: /workspace/nabang1010/STEAM/PhamMinhDuc_STEAM/src/yolov5/valset.txt
+
+
+nc: 4
+
+names: [ 'motor', 'car', 'bus', 'truck' ]

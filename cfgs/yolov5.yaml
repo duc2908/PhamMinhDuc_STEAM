@@ -1,0 +1,6 @@
+YOLOV5:
+    CFG: "./data/vehicle.yaml"
+    WEIGHT: "./weights/yolov5/best.pt"
+
+    CONF_THRESH: 0.8
+    IOU_THRESH: 0.3
