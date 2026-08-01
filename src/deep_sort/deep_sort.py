@@ -26,12 +26,21 @@ class DeepSort(object):
         metric = NearestNeighborDistanceMetric("cosine", max_cosine_distance, nn_budget)
         self.tracker = Tracker(metric, max_iou_distance=max_iou_distance, max_age=max_age, n_init=n_init)
 
-    def update(self, bbox_xywh, confidences, ori_img):
+    def update(self, bbox_xywh, confidences, class_ids, ori_img):
         self.height, self.width = ori_img.shape[:2]
         # generate detections
         features = self._get_features(bbox_xywh, ori_img)
         bbox_tlwh = self._xywh_to_tlwh(bbox_xywh)
-        detections = [Detection(bbox_tlwh[i], conf, features[i]) for i,conf in enumerate(confidences) if conf>self.min_confidence]
+        detections = []
+
+        for i, conf in enumerate(confidences):
+            if conf <= self.min_confidence:
+                continue
+
+            det = Detection(bbox_tlwh[i], conf, features[i])
+            det.class_id = int(class_ids[i])
+            det.conf = float(conf)
+            detections.append(det)
 
         # run on non-maximum supression 
         boxes = np.array([d.tlwh for d in detections])
@@ -51,7 +60,24 @@ class DeepSort(object):
             box = track.to_tlwh()
             x1,y1,x2,y2 = self._tlwh_to_xyxy(box)
             track_id = track.track_id
-            outputs.append(np.array([x1,y1,x2,y2,track_id], dtype=np.int))
+            class_id = -1
+            conf = 0.0
+
+            if hasattr(track, "class_id"):
+                class_id = track.class_id
+
+            if hasattr(track, "conf"):
+                conf = track.conf
+
+            outputs.append(np.array([
+                x1,
+                y1,
+                x2,
+                y2,
+                track_id,
+                class_id,
+                conf
+            ], dtype=float))
         if len(outputs) > 0:
             outputs = np.stack(outputs,axis=0)
         return outputs

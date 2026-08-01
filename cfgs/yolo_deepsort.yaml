@@ -1,5 +1,5 @@
 DEEPSORT:
-    REID_CKPT: "/workspace/nabang1010/DATN/weights/reid/ckpt.t7"
+    REID_CKPT: "../weights/reid/ckpt.t7"
     MAX_DIST: 0.2
     MIN_CONFIDENCE: 0.3
     NMS_MAX_OVERLAP: 0.5
@@ -9,8 +9,8 @@ DEEPSORT:
     NN_BUDGET: 100
 
 YOLOV5:
-    CFG: "/workspace/nabang1010/DATN/data/vehicle.yaml"
-    WEIGHT: "/workspace/nabang1010/DATN/weights/yolov5/yolov5x_best.pt"
+    CFG: "../DATA/data/vehicle.yaml"
+    WEIGHT: "../weights/yolov5/yolov5x_best.pt"
     IMG_SIZE: (640, 640)
     CONF_THRESH: 0.8
     IOU_THRESH: 0.3

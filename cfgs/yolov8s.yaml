@@ -1,0 +1,53 @@
+PATHS:
+  VIDEO_PATH: ../DATA/video_test/NguyenTraiOct112022.mp4
+  SAVE_DIR: ../results
+  OUTPUT_NAME: yolov8s_deepsort_result.mp4
+  DATASET_YAML: ../cfgs/vehicle_data.yaml
+  WEIGHTS_OUT: ../weights/vehicle_best_8s.pt
+  REID_CKPT: ../weights/reid/ckpt.t7
+  TRAIN_PROJECT: ../runs
+
+TRAIN:
+  MODEL: yolov8s.pt
+  DEVICE: 0
+  EPOCHS: 30
+  IMG_SIZE: 640
+  BATCH: 1
+  WORKERS: 0
+  PATIENCE: 15
+  RUN_NAME: vehicle_yolov8s
+  EXIST_OK: true
+  VERBOSE: true
+
+INFER:
+  WEIGHTS: ../weights/vehicle_best_8s.pt
+  DEVICE: 0
+  IMG_SIZE: 640
+  IMG_SIZE_FALLBACKS: [512, 416, 320]
+  CONF_THRESH: 0.35
+  IOU_THRESH: 0.45
+  CLASSES: [0, 1, 2, 3]
+  CLASS_NAMES: ['motor', 'car', 'bus', 'truck']
+
+TRACKER:
+  MAX_DIST: 0.2
+  MIN_CONFIDENCE: 0.3
+  NMS_MAX_OVERLAP: 0.5
+  MAX_IOU_DISTANCE: 0.7
+  MAX_AGE: 70
+  N_INIT: 3
+  NN_BUDGET: 100
+
+SPEED:
+  ENABLED: true
+  FPS_FALLBACK: 30
+  DISTANCE_METERS: 20.0
+  LINE_1: [[556, 556], [1664, 556]]
+  LINE_2: [[690, 390], [1288, 390]]
+
+VISUALIZATION:
+  TRACK_THICKNESS: 2
+  LINE_THICKNESS: 2
+  TEXT_SCALE: 0.8
+  TEXT_THICKNESS: 2
+  SPEED_COLOR: [0, 0, 255]

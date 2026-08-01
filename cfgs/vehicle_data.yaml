@@ -1,0 +1,7 @@
+path: ../vietnam-vehicle-detection.v2i.yolov8
+train: train/images
+val: valid/images
+test: test/images
+
+nc: 4
+names: ['motor', 'car', 'bus', 'truck']
